@@ -1,0 +1,20 @@
+{
+  "name": "atividade-2",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Atividade 2 - SOLID SRP e OCP",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "node --loader ts-node/esm --experimental-specifier-resolution=node ./src/index.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "nodemon": "^3.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  }
+}

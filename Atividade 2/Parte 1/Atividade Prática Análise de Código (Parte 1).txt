@@ -1,0 +1,27 @@
+1. Identificação de Responsabilidades
+
+A classe ProcessadorPedido original possui três responsabilidades distintas
+
+Cálculo de Impostos Define as regras de taxas baseadas no tipo de produto.
+
+Processamento de Pagamento Lida com a integraçãológica de diferentes gateways (Cartão, Boleto, PIX).
+
+Notificação Gerencia o envio de confirmações para o cliente.
+
+2. Atores e Departamentos
+
+Diferentes partes da empresa poderiam solicitar mudanças nesta única classe
+
+Departamento FiscalFinanceiro Para alterar as alíquotas de impostos ou adicionar novas categorias de produtos.
+
+Equipe de PagamentosBancos Para mudar a forma como o boleto é gerado ou integrar um novo método de pagamento.
+
+MarketingCustomer Experience Para alterar o texto ou o canal de envio da confirmação do pedido.
+
+3. Violações do OCP (AbertoFechado)
+
+O princípio OCP é violado nos seguintes pontos
+
+Método calcularTotal Utiliza um switch case para tipos de produtos. Para adicionar um novo tipo (como LIVRO), é necessário modificar o código interno deste método.
+
+Método processarPagamento Também utiliza um switch para formas de pagamento. Adicionar CRIPTOMOEDA exigiria a alteração direta da classe original.

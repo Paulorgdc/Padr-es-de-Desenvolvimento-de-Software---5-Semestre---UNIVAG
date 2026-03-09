@@ -1,0 +1,13 @@
+{
+  "name": "atividade-1-refatoracao",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Refatoração do Gerador de Relatórios - Strategy Pattern",
+  "scripts": {
+    "start": "node --experimental-strip-types ./src/Atividade1_Solucao.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0"
+  }
+}

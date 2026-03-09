@@ -1,0 +1,54 @@
+Atividade Prática 1 — Análise de Código Legado
+
+Aluno: Paulo Roberto Griggi de Campos
+Projeto: PW TechSphere - Módulo de Relatórios
+
+Parte 1: Identificação de Problemas
+
+1. Problemas de Design Identificados
+
+Duplicação: A lógica de iterar sobre a lista (for) e acumular o resultado em uma string é repetida de forma idêntica em todos os blocos if/else.
+
+Rigidez: O código é difícil de mudar. Para alterar qualquer formato, é necessário mexer na classe principal. A estrutura é "dura" e não permite mudanças isoladas.
+
+Fragilidade: Como toda a lógica de todos os formatos reside em um único método, uma alteração mal sucedida na formatação do PDF pode acidentalmente corromper a lógica global ou impedir a geração dos outros formatos (CSV/HTML).
+
+Imobilidade: A lógica de geração de CSV está "presa" dentro da classe GeradorRelatorio. Se outro sistema precisar apenas do CSV, ele terá que levar junto toda a lógica de PDF e HTML, ou recorrer ao "copy-paste".
+
+Viscosidade: É mais fácil adicionar outro if (fazer a coisa errada) do que criar uma arquitetura melhor (fazer a coisa certa). O código "resiste" a melhorias.
+
+2. Impacto da Adição de XML
+
+Para adicionar o formato XML, seria necessário:
+
+Abrir a classe GeradorRelatorio.
+
+Adicionar um novo bloco else if (formato.equals("xml")).
+
+Adicionar aproximadamente 6 a 10 linhas de código repetindo a estrutura de for e concatenação de strings.
+
+Risco: Modificar uma classe que já está em produção para adicionar algo novo viola o OCP.
+
+3. Reutilização de Código
+
+Não é possível reutilizar apenas a geração de CSV de forma limpa. A lógica está acoplada dentro de uma estrutura condicional gigante. Para reutilizar, seria necessário extrair o código manualmente, o que gera duplicação e dificulta a manutenção sincronizada.
+
+4. Risco na Alteração de Formatos
+
+Sim, existe risco. Como todas as variáveis de controle (como resultado) e o fluxo de execução estão no mesmo escopo do método, um erro de sintaxe, uma mudança de tipo de variável ou uma alteração na assinatura do método para atender o PDF afetará obrigatoriamente todos os outros formatos.
+
+Parte 2: Explicação da Solução
+
+A solução proposta utiliza o Padrão Strategy.
+
+Interface Relatorio: Define o contrato que todos os formatos devem seguir.
+
+Classes Concretas: Cada formato agora é uma classe independente (SRP).
+
+Resolução dos Problemas:
+
+Fim da Duplicação: Cada classe cuida da sua formatação.
+
+Extensibilidade (OCP): Adicionar XML agora significa criar uma nova classe RelatorioXML, sem tocar no código antigo.
+
+Mobilidade: Se outro projeto precisar de CSV, basta importar a classe RelatorioCSV.
